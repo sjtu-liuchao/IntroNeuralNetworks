@@ -1,5 +1,5 @@
 import pandas_datareader.data as pdr
-import fix_yahoo_finance as fix
+import yfinance as fix
 import numpy as np
 fix.pdr_override()
 
