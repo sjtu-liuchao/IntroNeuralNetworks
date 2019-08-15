@@ -34,13 +34,13 @@ print(model.evaluate(X_test, Y_test))
 
 data = pdr.get_data_yahoo("AAPL", "2017-12-19", "2018-01-03")
 stock = data["Adj Close"]
-X_predict = np.array(stock).reshape((1, 10, 1)) / 200
-
+X_predict = np.array(stock).reshape((1, -1, 1)) / 200
+print("predict:")
 print(model.predict(X_predict)*200)
 
 # If instead of a full backtest, you just want to see how accurate the model is for a particular prediction, run this:
-data = pdr.get_data_yahoo("AAPL", "2017-12-19", "2018-01-03")
-stock = data["Adj Close"]
-X_predict = np.array(stock).reshape((1, 10)) / 200
-print("predict:")
-print(model.predict(X_predict)*200)
+#data = pdr.get_data_yahoo("AAPL", "2017-12-19", "2018-01-03")
+#stock = data["Adj Close"]
+#X_predict = np.array(stock).reshape((1, 10)) / 200
+#print("predict:")
+#print(model.predict(X_predict)*200)
