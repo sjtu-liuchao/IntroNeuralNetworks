@@ -5,6 +5,7 @@ import tensorflow as tf
 from preprocessing import DataProcessing
 import pandas_datareader.data as pdr
 import yfinance as fix
+import matplotlib.pyplot as plt
 fix.pdr_override()
 
 start = "2003-01-01"
@@ -28,7 +29,14 @@ model.add(tf.keras.layers.Dense(1, activation=tf.nn.relu))
 
 model.compile(optimizer="adam", loss="mean_squared_error")
 
-model.fit(X_train, Y_train, epochs=50)
+h=model.fit(X_train, Y_train, epochs=50)
+
+print("history.loss:",h.history)
+plt.title('loss') 
+losses=h.history['loss']
+plt.plot(losses, label='loss')  
+plt.legend()  
+plt.show()
 
 print(model.evaluate(X_test, Y_test))
 
