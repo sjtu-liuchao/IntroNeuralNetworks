@@ -28,7 +28,7 @@ def get_stock_data(ticker, start_date, end_date):
             print("Tried 5 times, Yahoo error. Trying after 2 minutes")
             time.sleep(120)
             get_stock_data(ticker, start_date, end_date)
-    stock_data = all_data["Adj Close"] #adjclose,除权价格(前除权)
+    stock_data = all_data[["Adj Close", "Volume"]]  # Adj close,除权价格(前除权) + 成交量
     stock_data.to_csv("stock_prices.csv",header=False)
 
 
