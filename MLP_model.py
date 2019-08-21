@@ -5,7 +5,7 @@ from preprocessing import DataProcessing
 import pandas_datareader.data as pdr
 import yfinance as fix
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 fix.pdr_override()
 
@@ -17,7 +17,7 @@ process = DataProcessing("stock_prices.csv", 0.9)
 process.gen_test(10) #滑动窗口构建测试样本
 process.gen_train(10) #滑动窗口构建训练样本
 
-X_train = process.X_train / 200 #归一化方法？是否比x' = (x-min/max-min)更靠谱？
+X_train = process.X_train / 200 #归一化方法？是否比x' = (x-min/max-min)更靠谱？min=0,max=200
 Y_train = process.Y_train / 200
 
 X_test = process.X_test / 200
