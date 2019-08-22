@@ -21,7 +21,7 @@ class DataProcessing:
         :return: X_train and Y_train
         """
         for i in range((len(self.stock_train)//seq_len)*seq_len - seq_len - 1):
-            x = np.array(self.stock_train.iloc[i: i + seq_len, 1])
+            x = np.array(self.stock_train.iloc[i: i + seq_len, [1, 2]])
             y = np.array([self.stock_train.iloc[i + seq_len + 1, 1]], np.float64)
             self.input_train.append(x)
             self.output_train.append(y)
@@ -35,7 +35,7 @@ class DataProcessing:
         :return: X_test and Y_test
         """
         for i in range((len(self.stock_test)//seq_len)*seq_len - seq_len - 1):
-            x = np.array(self.stock_test.iloc[i: i + seq_len, 1])
+            x = np.array(self.stock_test.iloc[i: i + seq_len, [1, 2]])
             y = np.array([self.stock_test.iloc[i + seq_len + 1, 1]], np.float64)
             self.input_test.append(x)
             self.output_test.append(y)

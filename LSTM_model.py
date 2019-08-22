@@ -16,14 +16,14 @@ process = DataProcessing("stock_prices.csv", 0.9)
 process.gen_test(10)
 process.gen_train(10)
 
-X_train = process.X_train.reshape((3379, 10, 1)) / 200
+X_train = process.X_train / np.array([200, 1e9])  # 归一化， 包括Adj Close 和 Volume
 Y_train = process.Y_train / 200
 
-X_test = process.X_test.reshape(359, 10, 1) / 200
+X_test = process.X_test / np.array([200, 1e9])
 Y_test = process.Y_test / 200
 
 model = tf.keras.Sequential()
-model.add(tf.keras.layers.LSTM(20, input_shape=(10, 1), return_sequences=True))
+model.add(tf.keras.layers.LSTM(20, input_shape=(10, 2), return_sequences=True))
 model.add(tf.keras.layers.LSTM(20))
 model.add(tf.keras.layers.Dense(1, activation=tf.nn.relu))
 
@@ -40,8 +40,6 @@ plt.show()
 
 print(model.evaluate(X_test, Y_test))
 
-data = pdr.get_data_yahoo("AAPL", "2017-12-19", "2018-01-03")
-stock = data["Adj Close"]
 X_predict = model.predict(X_test)
 plt.title("Results") 
 plt.plot(Y_test * 200, label="Actual", c="blue")
@@ -50,10 +48,12 @@ plt.legend()
 plt.show()
 plt.savefig('stock.png')
 
-
-X_predict = np.array(stock).reshape((1, -1, 1)) / 200
+data = pdr.get_data_yahoo("AAPL", "2017-12-19", "2018-01-03")
+stock = data[["Adj Close", "Volume"]]
+X1_predict = np.array(stock) / np.array([200, 1e9])
+X1_predict = X1_predict.reshape(1, -1, 2)
 print("predict:")
-print(model.predict(X_predict)*200)
+print(model.predict(X1_predict)*200)
 # If instead of a full backtest, you just want to see how accurate the model is for a particular prediction, run this:
 #data = pdr.get_data_yahoo("AAPL", "2017-12-19", "2018-01-03")
 #stock = data["Adj Close"]

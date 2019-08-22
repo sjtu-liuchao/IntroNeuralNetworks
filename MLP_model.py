@@ -17,10 +17,12 @@ process = DataProcessing("stock_prices.csv", 0.9)
 process.gen_test(10) #滑动窗口构建测试样本
 process.gen_train(10) #滑动窗口构建训练样本
 
-X_train = process.X_train / 200 #归一化方法？是否比x' = (x-min/max-min)更靠谱？min=0,max=200
+X_train = process.X_train / np.array([200, 1e9])  # 归一化， 包括Adj Close 和 Volume, 是否比x' = (x-min/max-min)更靠谱？min=0,max=200
+X_train = X_train.reshape(X_train.shape[0], 20)
 Y_train = process.Y_train / 200
 
-X_test = process.X_test / 200
+X_test = process.X_test / np.array([200, 1e9])
+X_test = X_test.reshape(X_test.shape[0], 20)
 Y_test = process.Y_test / 200
 
 model = tf.keras.models.Sequential()
@@ -36,7 +38,11 @@ print(model.evaluate(X_test, Y_test))
 
 # If instead of a full backtest, you just want to see how accurate the model is for a particular prediction, run this:
 data = pdr.get_data_yahoo("AAPL", "2017-12-19", "2018-01-03")
-stock = data["Adj Close"] #adjclose,除权价格(前除权)
-X_predict = np.array(stock).reshape((1, 10)) / 200
+stock = data[["Adj Close", "Volume"]]  # adj close,除权价格(前除权)
+
+X_predict = np.array(stock)
+X_predict = X_predict / np.array([200, 1e9])
+X_predict = X_predict.reshape(1, 20)
+
 print("predict:")
 print(model.predict(X_predict)*200)
