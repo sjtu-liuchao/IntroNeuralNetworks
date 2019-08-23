@@ -48,7 +48,7 @@ plt.legend()
 plt.show()
 plt.savefig('stock.png')
 
-data = pdr.get_data_yahoo("AAPL", "2017-12-19", "2018-01-03")
+data = pdr.get_data_yahoo("AAPL", "2017-12-19", "2018-01-02")
 stock = data[["Adj Close", "Volume"]]
 X1_predict = np.array(stock) / np.array([200, 1e9])
 X1_predict = X1_predict.reshape(1, -1, 2)
