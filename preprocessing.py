@@ -13,6 +13,9 @@ class DataProcessing:
         self.output_train = []
         self.input_test = []
         self.output_test = []
+        self.value_max=self.stock_train.iloc[:,1].max()
+        self.volume_max=self.stock_train.iloc[:,2].max()
+
 
     def gen_train(self, seq_len):
         """
